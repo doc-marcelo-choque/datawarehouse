@@ -1,0 +1,16 @@
+name: etl
+
+channels:
+  - conda-forge
+
+dependencies:
+  - python=3.11
+  - pip
+  - pandas
+  - sqlalchemy
+  - pyodbc
+  - python-dotenv
+  - jupyterlab
+  - nbconvert
+  - ipykernel
+  - openpyxl

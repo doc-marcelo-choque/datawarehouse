@@ -2,15 +2,16 @@
 
 ## Objetivo
 
-Proyecto educativo para aprender procesos ETL desde Stage hacia un Data Warehouse en SQL Server.
+Proyecto educativo para desarrollar procesos ETL desde Stage hacia un Data Warehouse en SQL Server, utilizando Python, Jupyter Notebook y agentes de programación.
 
-## Estructura
+## Estructura del proyecto
 
-- `database/estructura_stage.sql`: estructura de Stage.
-- `database/estructura_dw.sql`: estructura del Data Warehouse.
-- `etl/`: notebooks ETL.
-- `etl/.env`: configuración de conexiones.
-- `prompts/`: tareas específicas para el agente.
+- `database/`: estructuras SQL de Stage y Data Warehouse.
+- `etl/notebooks/`: notebooks originales utilizados para desarrollo y aprendizaje.
+- `etl/scripts/`: programas Python ejecutables generados a partir de los notebooks.
+- `etl/.env`: configuración de conexiones a SQL Server.
+- `.github/skills/`: capacidades especializadas disponibles para los agentes de programación.
+- `prompts/`: instrucciones para tareas específicas.
 
 ## Reglas generales
 
@@ -25,33 +26,37 @@ Proyecto educativo para aprender procesos ETL desde Stage hacia un Data Warehous
 - No elimines datos existentes del Data Warehouse.
 - Los ETL deben poder ejecutarse varias veces sin generar duplicados.
 
-## Estructura de los ETL
+## Estructura lógica de los ETL
 
-Cada notebook debe seguir:
+Todos los procesos ETL deben contemplar:
 
 1. Importación de librerías.
-2. Lectura de `.env`.
+2. Lectura de configuración desde `.env`.
 3. Conexiones.
 4. Extracción.
 5. Transformación.
 6. Carga incremental.
 7. Validación.
 
+Los notebooks se utilizan para desarrollo y experimentación.
+
+Los scripts Python se utilizan para ejecución independiente y automatización.
+
+Ambas implementaciones deben conservar las mismas reglas de negocio.
+
 ## Carga incremental
 
 Para dimensiones:
 
 1. Leer datos desde Stage.
-2. Realizar transformaciones necesarias.
+2. Realizar las transformaciones necesarias.
 3. Leer claves existentes en el DW.
 4. Detectar registros nuevos.
 5. Insertar únicamente registros nuevos.
 
-Las claves sustitutas `*_sk` definidas como `IDENTITY`
-deben ser generadas por SQL Server.
+Las claves sustitutas `*_sk` definidas como `IDENTITY` deben ser generadas por SQL Server.
 
-Para tablas de hechos, obtener primero las claves sustitutas
-desde las dimensiones.
+Para tablas de hechos, obtener primero las claves sustitutas desde las dimensiones.
 
 ## Orden de carga
 
@@ -60,22 +65,51 @@ desde las dimensiones.
 3. DimFecha
 4. FactVentas
 
+Los procesos deben respetar sus dependencias.
+
+Si falla un proceso requerido por otro, no se debe continuar con los procesos dependientes.
+
 ## Validación
 
 Todo ETL debe mostrar:
 
-- registros extraídos;
-- registros existentes;
-- registros nuevos;
-- registros insertados.
+- Registros extraídos.
+- Registros existentes.
+- Registros nuevos.
+- Registros insertados.
 
 Una segunda ejecución sin cambios debe insertar 0 registros.
+
+## Uso de skills
+
+Las capacidades especializadas se encuentran en `.github/skills/`.
+
+Cuando una tarea corresponda a una skill disponible, consultar su archivo `SKILL.md` y aplicar sus instrucciones.
+
+Las skills deben complementar las reglas generales de este documento, sin duplicarlas.
 
 ## Ejecución de prompts
 
 Cuando se solicite ejecutar un archivo de `prompts/`:
 
-1. Lee este `AGENTS.md`.
-2. Lee completamente el prompt indicado.
-3. Consulta los archivos que el prompt requiera.
-4. Genera o modifica únicamente el artefacto solicitado.
+1. Leer este `AGENTS.md`.
+2. Leer completamente el prompt indicado.
+3. Consultar la skill correspondiente cuando sea aplicable.
+4. Consultar los archivos que la tarea requiera.
+5. Generar o modificar únicamente los artefactos solicitados.
+
+## Protección de archivos
+
+- No modificar los notebooks originales durante su conversión a scripts.
+- No modificar archivos SQL sin autorización.
+- No modificar `.env` sin autorización.
+- No ejecutar operaciones de escritura en las bases de datos sin autorización.
+- No exponer credenciales en código, documentación o registros de ejecución.
+
+## Entorno Python
+
+- El proyecto utiliza el entorno Conda `etl`.
+- El intérprete Python está configurado en `.vscode/settings.json`.
+- No utilizar otro intérprete ni instalar dependencias sin autorización.
+- No crees ambientes
+- Las skills deben respetar esta configuración y no redefinir el entorno Python.
