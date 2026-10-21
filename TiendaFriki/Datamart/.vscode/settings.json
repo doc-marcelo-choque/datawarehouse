@@ -1,4 +1,4 @@
 {
-  "python.defaultInterpreterPath": "C:\\Users\\Pc\\anaconda326\\envs\\etl\\python.exe",
+  "python.defaultInterpreterPath": "'C:\\Users\\Marcelo Choque\\anaconda3\\envs\\etl'",
   "python.terminal.activateEnvironment": true
 }
